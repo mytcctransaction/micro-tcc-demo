@@ -1,0 +1,22 @@
+#ribbon:
+#  eureka:
+#    enabled: true
+#    ReadTimeout: 100000
+#  ConnectTimeout: 8000
+#  MaxAutoRetries: 0
+#  MaxAutoRetriesNextServer: 1
+#  OkToRetryOnAllOperations: false
+#
+#
+##设置最大容错超时时间
+#hystrix.command.default.execution.isolation.thread.timeoutInMilliseconds: 90000
+## hystrix 信号量隔离，3秒后自动超时
+#hystrix:
+#  command:
+#    default:
+#      execution:
+#        isolation:
+#          strategy: SEMAPHORE
+#          thread:
+#            timeoutInMilliseconds: 3000
+#  shareSecurityContext: true
