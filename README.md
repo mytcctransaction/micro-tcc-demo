@@ -4,8 +4,8 @@
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://github.com/mytcctransaction/micro-tcc/master/LICENSE)
 
 ## Modules
-1. txlcn-tc: *Distributed Transaction Client*
-2. txlcn-common: *Commons*   
+1. micro-tcc-tc: *Distributed Transaction Client*
+2. micro-tcc-common: *Commons*   
 
 
 ## The Authority
