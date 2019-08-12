@@ -49,7 +49,7 @@ public class DemoServiceImpl  {
         //int a=1/0;
         fixSizeCacheMap.add(TransactionManager.getInstance().getTransactionGlobalId(),demo.getId());
         //ids.get(TracingContext.tracing().groupId()).add(demo.value());
-        return "ok-service-c";
+        return "success--c";
     }
 
     public void cancelMethod( String value){

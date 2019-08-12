@@ -52,7 +52,6 @@ public class DemoApiServiceImpl implements DemoApiService {
         String bResp = demoServiceB.rpc(name);
         String cResp = demoServiceC.rpc(name);
         Demo demo = new Demo();
-        //demo.setGroupId(TracingContext.tracing().groupId());
         demo.setContent(name);
         demo.setAppName("dubbo-service-a");
         demo.setCreateTime(new Date());
@@ -61,7 +60,7 @@ public class DemoApiServiceImpl implements DemoApiService {
         if (Objects.nonNull(exFlag)) {
             throw new IllegalStateException("by exFlag");
         }
-        return bResp + " > " + cResp + " > " + "ok-service-a";
+        return bResp + " > " + cResp + " > " + "success--a";
     }
 
     public void cancelMethod( String value, String exFlag){

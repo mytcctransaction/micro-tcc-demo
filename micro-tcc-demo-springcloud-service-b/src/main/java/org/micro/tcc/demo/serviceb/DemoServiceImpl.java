@@ -51,7 +51,7 @@ public class DemoServiceImpl implements DemoService {
         //if(1==1)
         //throw new Exception("dff");
         //int a=1/0;
-        return "ok-service-b";
+        return "success--b";
     }
 
     public void cancelMethod( String value){

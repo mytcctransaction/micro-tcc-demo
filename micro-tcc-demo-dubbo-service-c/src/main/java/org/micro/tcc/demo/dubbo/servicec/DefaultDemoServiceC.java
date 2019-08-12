@@ -45,7 +45,7 @@ public class DefaultDemoServiceC implements DemoServiceC {
         demoMapper.save(demo);
         fixSizeCacheMap.add(TransactionManager.getInstance().getTransactionGlobalId(),demo.getId());
 
-        return "ok-service-c";
+        return "success--c";
     }
 
     public void cancelMethod( String value){

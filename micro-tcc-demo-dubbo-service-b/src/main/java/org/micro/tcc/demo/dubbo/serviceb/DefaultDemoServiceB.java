@@ -44,7 +44,7 @@ public class DefaultDemoServiceB implements DemoServiceB {
         demo.setAppName("dubbo-service-b");
         demoMapper.save(demo);
         fixSizeCacheMap.add(TransactionManager.getInstance().getTransactionGlobalId(),demo.getId());
-        return "ok-service-b";
+        return "success--b";
     }
 
     public void cancelMethod( String value){
