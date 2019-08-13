@@ -11,15 +11,12 @@
 ## Summary
     micro-tcc 是基于Zookeeper（协调者）+Redis 分布式事务中间件，支持SpringCloud、Dubbo、RestTemplate
     micro-tcc 支持事务同步和异步调用方式，发生异常的事务会定时自动恢复，如果超过最大恢复次数，建议手动恢复
-    Zookeeper 作为分布式时候协调者，它负责协调各个子系统的事务状态和确认、提交、回滚
-## The Authority
-Website: [https://github.com/mytcctransaction/micro-tcc](https://github.com/mytcctransaction/micro-tcc)  
-Statistics: [Leave your company messages](https://github.com/mytcctransaction/micro-tcc)  
-QQ Group：246539015 (Hot) 
-Author QQ:306750639
+    Zookeeper 作为分布式时候协调者，它负责协调各个子系统的事务状态和事务确认、提交、回滚
+    redis 作为事务的存储方式
+    
 
 ## Start
-一，项目配置
+###项目配置
 1，在各个项目的resources目录下，配置数据库连接，本项目采用mysql数据库
 
 spring.datasource.driver-class-name=com.mysql.jdbc.Driver
@@ -34,7 +31,7 @@ spring.datasource.password=123456
 
 在common项目的resources目录下micro-tcc.sql文件，新建一个micro-tcc数据库，并执行它
 
-3，配置zookeeper连接
+3，配置zookeeper、redis连接
 
 micro.tcc.coordinator.ip=127.0.0.1:2181
 
@@ -48,11 +45,20 @@ dubbo.consumer.filter=dubboConsumerContextFilter
 
 dubbo.provider.filter=dubboProviderContextFilter
 
+配置redis连接
+
+spring.redis.host: 127.0.0.1
+
+spring.redis.port: 6379
+
+spring.redis.timeout: 10000
+
 4，micro-tcc 事务使用配置
 
 4.1 在SpringBoot 启动类加上@EnableMicroTccTransaction 注解，表示使用micro-tcc管理分布式事务，如下面：
 
 @EnableMicroTccTransaction
+
 public class SpringServiceAApplication {
 
     public static void main(String[] args) throws Exception {
@@ -77,9 +83,23 @@ public class SpringServiceAApplication {
  
  public void confirmMethod(args...){}
  
-二， 使用
+### 事务恢复配置
 
-1，分别启动dubbo或者SpringCloud a、b、c 三个项目
+重试次数
+
+transaction.recover.maxRetryCount=15
+
+重试间隔，重试时间=重试间隔*重试次数
+
+transaction.recover.recoverDuration=100
+
+job cron表达式
+
+transaction.recover.cronExpression=0 */2 * * * ?
+ 
+### 使用
+
+1，分别启动dubbo或者SpringCloud a、b、c 三个项目，SpringCloud还需要首先启动micro-tcc-ek 项目
 
 启动类类似：DubboServiceAApplication... 
 
@@ -88,3 +108,9 @@ public class SpringServiceAApplication {
 http://127.0.0.1:8881/micro_tcc?value=1
 
 3，查看数据库，会查看到有三条记录
+
+## The Authority
+Website: [https://github.com/mytcctransaction/micro-tcc](https://github.com/mytcctransaction/micro-tcc)  
+Statistics: [Leave your company messages](https://github.com/mytcctransaction/micro-tcc)  
+QQ Group：246539015 (Hot) 
+Author QQ:306750639

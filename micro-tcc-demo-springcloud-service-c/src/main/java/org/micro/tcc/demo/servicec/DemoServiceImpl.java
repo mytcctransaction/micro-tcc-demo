@@ -3,6 +3,7 @@ package org.micro.tcc.demo.servicec;
 import lombok.extern.slf4j.Slf4j;
 import org.micro.tcc.tc.component.TransactionManager;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.micro.tcc.common.core.FixSizeCacheMap;
@@ -36,14 +37,17 @@ public class DemoServiceImpl  {
     //定长并定时清理缓存map
     private FixSizeCacheMap fixSizeCacheMap=FixSizeCacheMap.get();
 
+    @Value("${spring.application.name}")
+    private String appName;
+
     @Transactional
     @TccTransaction(confirmMethod = "confirmMethod",cancelMethod = "cancelMethod",propagation = Propagation.SUPPORTS)
     public String rpc(String value) {
         Demo demo = new Demo();
         demo.setContent(value);
         demo.setCreateTime(new Date());
-        demo.setAppName("c-name");
-        demo.setGroupId("c gid");
+        demo.setAppName(appName);
+        demo.setGroupId(TransactionManager.getInstance().getTransactionGlobalId());
         demoMapper.save(demo);
         log.info("**********saved c");
         //int a=1/0;

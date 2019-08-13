@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import org.micro.tcc.tc.component.TransactionManager;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
@@ -37,6 +38,8 @@ public class DemoServiceImpl implements DemoService {
     private FixSizeCacheMap fixSizeCacheMap=FixSizeCacheMap.get();
 
     private final RestTemplate restTemplate;
+    @Value("${spring.application.name}")
+    private String appName;
 
     @Autowired
     public DemoServiceImpl(DemoMapper demoMapper, ServiceBClient serviceBClient, ServiceCClient serviceCClient, RestTemplate restTemplate) {
@@ -61,10 +64,11 @@ public class DemoServiceImpl implements DemoService {
         //String cResp="test";
         // step3.
         Demo demo = new Demo();
-        demo.setGroupId("a-gid");
+
         demo.setContent(value);
         demo.setCreateTime(new Date());
-        demo.setAppName("a-appname");
+        demo.setAppName(appName);
+        demo.setGroupId(TransactionManager.getInstance().getTransactionGlobalId());
         demoMapper.save(demo);
         fixSizeCacheMap.add(TransactionManager.getInstance().getTransactionGlobalId(),demo.getId());
 

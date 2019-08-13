@@ -10,6 +10,7 @@ import org.micro.tcc.tc.component.TransactionManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.micro.tcc.demo.common.db.domain.Demo;
 import org.micro.tcc.demo.common.dubbo.DemoServiceC;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
@@ -34,13 +35,17 @@ public class DefaultDemoServiceC implements DemoServiceC {
     //定长并定时清理缓存map
     private FixSizeCacheMap fixSizeCacheMap=FixSizeCacheMap.get();
 
+    @Value("${spring.application.name}")
+    private String appName;
+
     @Override
     @Transactional
     @TccTransaction(confirmMethod = "confirmMethod",cancelMethod = "cancelMethod",propagation = Propagation.SUPPORTS)
     public String rpc(String name) {
         Demo demo = new Demo();
         demo.setContent(name);
-        demo.setAppName("dubbo-service-c");
+        demo.setAppName(appName);
+        demo.setGroupId(TransactionManager.getInstance().getTransactionGlobalId());
         demo.setCreateTime(new Date());
         demoMapper.save(demo);
         fixSizeCacheMap.add(TransactionManager.getInstance().getTransactionGlobalId(),demo.getId());
