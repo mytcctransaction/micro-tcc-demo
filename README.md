@@ -16,7 +16,9 @@
     代码完全开源，欢迎大家start！
 
 ## Start
+
 ###项目配置
+
 1，在各个项目的resources目录下，配置数据库连接，本项目采用mysql数据库
 
 spring.datasource.driver-class-name=com.mysql.jdbc.Driver
