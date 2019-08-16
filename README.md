@@ -133,9 +133,10 @@ http://127.0.0.1:8881/micro_tcc?value=1&ex=1
 
 5，方法参数最好有一个全局唯一id，方便业务做幂等、查找数据等操作
  
+6，zookeeper 生产环境必须做集群，而且起码3个节点以上
 
 ## The Authority
 Website: [https://github.com/mytcctransaction/micro-tcc](https://github.com/mytcctransaction/micro-tcc)  
 Statistics: [Leave your company messages](https://github.com/mytcctransaction/micro-tcc)  
-QQ Group：246539015 (Hot) 
-Author QQ:306750639
+QQ 群：246539015 (Hot) 
+作者 QQ:306750639
