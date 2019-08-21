@@ -63,6 +63,7 @@ public class DefaultDemoServiceC implements DemoServiceC {
         log.info("*****confirmMethod:value:{},exFlag:{}",value);
         //int a=1/0;
         Long id=(Long)fixSizeCacheMap.peek(TransactionManager.getInstance().getTransactionGlobalId());
+        //demoMapper.updateByKId(id);
         log.info("*****confirmMethod:id:{}",id);
     }
 }

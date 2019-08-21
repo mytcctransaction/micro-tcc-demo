@@ -52,6 +52,7 @@ public class DemoApiServiceImpl implements DemoApiService {
     @Transactional
     @TccTransaction(confirmMethod = "confirmMethod",cancelMethod = "cancelMethod")
     public String execute(String name, String exFlag) {
+        long a=System.currentTimeMillis();
         String bResp = demoServiceB.rpc(name);
         String cResp = demoServiceC.rpc(name);
         Demo demo = new Demo();
@@ -64,6 +65,8 @@ public class DemoApiServiceImpl implements DemoApiService {
         if (Objects.nonNull(exFlag)) {
             throw new IllegalStateException("by exFlag");
         }
+        long b=System.currentTimeMillis();
+        log.error("execute:{}",b-a);
         return bResp + " > " + cResp + " > " + "success--a";
     }
 
@@ -76,6 +79,7 @@ public class DemoApiServiceImpl implements DemoApiService {
     public void confirmMethod( String value, String exFlag){
         log.info("*****confirmMethod:value:{},exFlag:{}",value,exFlag);
         Long id=(Long)fixSizeCacheMap.peek(TransactionManager.getInstance().getTransactionGlobalId());
+        //demoMapper.updateByKId(id);
         log.info("*****confirmMethod:id:{}",id);
 
     }

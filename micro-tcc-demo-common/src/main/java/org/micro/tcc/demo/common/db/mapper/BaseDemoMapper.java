@@ -1,5 +1,6 @@
 package org.micro.tcc.demo.common.db.mapper;
 
+import org.apache.ibatis.annotations.Update;
 import org.micro.tcc.demo.common.db.domain.Demo;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
@@ -13,4 +14,7 @@ public interface BaseDemoMapper {
 
     @Delete("delete from tcc_demo where id=#{id}")
     void deleteByKId(Long id);
+
+    @Update("update  tcc_demo set content=#{id} where id=#{id}")
+    void updateByKId(Long id);
 }
