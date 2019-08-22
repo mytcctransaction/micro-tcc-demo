@@ -197,6 +197,7 @@
     <orderEntry type="library" name="Maven: org.apache.logging.log4j:log4j-to-slf4j:2.11.1" level="project" />
     <orderEntry type="library" name="Maven: org.apache.logging.log4j:log4j-api:2.11.1" level="project" />
     <orderEntry type="library" name="Maven: org.slf4j:jul-to-slf4j:1.7.25" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.commons:commons-pool2:2.6.0" level="project" />
     <orderEntry type="library" name="Maven: org.projectlombok:lombok:1.18.0" level="project" />
   </component>
 </module>

@@ -79,7 +79,7 @@ See here for more details: http://gordondickens.com/wordpress/2013/03/27/sawing-
 
     <!-- 输出到控制台和文件，可定义更多的 Appender -->
     <root>
-        <level value="debug"/>
+        <level value="info"/>
         <appender-ref ref="CONSOLE"/>
         <appender-ref ref="INFO_FILE"/>
 
