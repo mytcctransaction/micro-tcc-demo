@@ -123,7 +123,7 @@ http://127.0.0.1:8881/micro_tcc?value=1&ex=1
 
 1，完全不启用事务的情况下，使用Jmemter
 
-https://github.com/mytcctransaction/micro-tcc-demo/blob/master/micro-tcc-demo-common/src/main/resources/img/new.png
+ ![](https://github.com/mytcctransaction/micro-tcc-demo/blob/master/micro-tcc-demo-common/src/main/resources/img/new.png)
 
 ## 注意要点
 
