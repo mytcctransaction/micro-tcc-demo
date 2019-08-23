@@ -13,7 +13,7 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration
 @SpringBootApplication
-//@EnableMicroTccTransaction
+@EnableMicroTccTransaction
 public class DubboServiceAApplication {
 
     public static void main(String[] args) {
