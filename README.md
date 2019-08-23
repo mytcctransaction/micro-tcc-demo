@@ -9,10 +9,10 @@
 3. micro-tcc-springcloud-*: *SpringCloud demo*   
 4. micro-tcc-ek:*Eureka Server*
 ## Summary
-    micro-tcc 是基于Zookeeper（协调者）+Redis 分布式事务中间件，支持SpringCloud Feign、Dubbo、RestTemplate
+    micro-tcc 是基于Zookeeper（协调者）+Redis 分布式事务中间件，支持SpringCloud 、Dubbo、RestTemplate
     micro-tcc 支持事务同步和异步调用方式，发生异常的事务会定时自动恢复，如果超过最大恢复次数，建议手动恢复
     Zookeeper 作为分布式事务协调者，它负责协调各个子系统的事务状态和事务确认、提交、回滚
-    redis 作为事务的存储方式
+    redis 作为事务日志的存储方式
     代码完全开源，欢迎大家start！
 
 ## Start
@@ -87,13 +87,15 @@ public class SpringServiceAApplication {
  
 ### 事务恢复配置
 
-重试次数
+最大重试次数
 
 transaction.recover.maxRetryCount=15
 
-重试间隔，重试时间=重试间隔*重试次数
+重试间隔
 
 transaction.recover.recoverDuration=100
+
+重试时间=重试间隔*重试次数
 
 job cron表达式
 
@@ -121,9 +123,35 @@ http://127.0.0.1:8881/micro_tcc?value=1&ex=1
 
 ## 性能测试
 
-1，完全不启用事务的情况下，使用Jmemter
+机器配置：
+
+cpu：Inter Core i5-8600 @ 3.10GHZ
+
+内存： 16 GB
+
+设备有限只有一台机子做测试，这台机子安装了mysql、zookeeper、redis、JMeter
+
+测试里所有服务器也是运行在这台机子上
+
+JMeter 线程设置：并发20个线程，持续运行2分钟，观察TPS
+
+1，完全不启用事务的情况下，关闭log日志，测试结果
+
+ ![](https://github.com/mytcctransaction/micro-tcc-demo/blob/master/micro-tcc-demo-common/src/main/resources/img/ori.png)
+
+发现事务TPS在210 左右
+
+2,使用micro-tcc 进行分布式事务管理，关闭log日志，测试结果
 
  ![](https://github.com/mytcctransaction/micro-tcc-demo/blob/master/micro-tcc-demo-common/src/main/resources/img/new.png)
+ 
+ 发现事务TPS在110 左右
+
+3，结论：未启用分布式事务，也没有做任何事务补偿情况下TPS是210，如果手动做了事务补偿之类操作，这个值会更低，估计TPS值在170左右
+
+下降率公式：下降率=（未启tcc事务TPS - 启用tcc事务TPS）/ 未启tcc事务TPS * 100%
+
+得出总体下降率在35%左右
 
 ## 注意要点
 
@@ -134,8 +162,6 @@ http://127.0.0.1:8881/micro_tcc?value=1&ex=1
 3，confirmMethod、cancelMethod 必须在业务上保证幂等性，框架暂不实现幂等
 
 4，confirmMethod 是异步执行，建议前端做异步处理。如果要同步处理结果，那可以不用confirmMethod方法，即是这个方法不做任何业务处理
-
-框架以后会支持confirmMethod 同步处理
 
 5，方法参数最好有一个全局唯一id，方便业务做幂等、查找数据等操作
  
