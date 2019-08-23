@@ -117,7 +117,13 @@ http://127.0.0.1:8881/micro_tcc?value=1&ex=1
 
 查看数据库，发现没有一条记录
 
-恭喜，测试成功！
+恭喜，测试成功！欢迎大家加群交流
+
+## 性能测试
+
+1，完全不启用事务的情况下，使用Jmemter
+
+https://github.com/mytcctransaction/micro-tcc-demo/blob/master/micro-tcc-demo-common/src/main/resources/img/new.png
 
 ## 注意要点
 
