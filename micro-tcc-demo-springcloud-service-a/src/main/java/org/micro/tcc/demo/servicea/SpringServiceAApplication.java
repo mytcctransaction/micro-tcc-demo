@@ -28,8 +28,8 @@ public class SpringServiceAApplication {
 
     }
 
-    /*@Bean
+    @Bean
     public RestTemplate restTemplate() {
         return new RestTemplate();
-    }*/
+    }
 }
