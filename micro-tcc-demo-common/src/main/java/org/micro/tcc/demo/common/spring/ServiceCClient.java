@@ -1,5 +1,7 @@
 package org.micro.tcc.demo.common.spring;
 
+import feign.Param;
+import feign.RequestLine;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -13,7 +15,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 @FeignClient(name= "micro-tcc-demo-springcloud-service-c", fallback =ServiceCFallback.class)
 public interface ServiceCClient {
 
-    @GetMapping("/rpc")
-    String rpc( @RequestParam("value") String name);
+//    @GetMapping("/rpc")
+//    String rpc( @RequestParam("value") String name);
+    @RequestLine("GET /rpc")
+    String rpc( @Param("value") String name);
 
 }

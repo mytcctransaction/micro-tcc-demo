@@ -1,7 +1,10 @@
 package org.micro.tcc.demo.common.spring;
 
+import feign.Contract;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
@@ -9,10 +12,10 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration
 @EnableFeignClients
-//@ConditionalOnMissingBean(Contract.class)
+@ConditionalOnMissingBean(Contract.class)
 public class FeignApiConfiguration {
-//    @Bean
-//    public Contract feignContract() {
-//       return new Contract.Default();
-//    }
+    @Bean
+    public Contract feignApiContract() {
+       return new Contract.Default();
+    }
 }

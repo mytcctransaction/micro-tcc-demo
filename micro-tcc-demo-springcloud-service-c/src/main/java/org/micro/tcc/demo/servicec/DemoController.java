@@ -1,9 +1,8 @@
 package org.micro.tcc.demo.servicec;
 
+import feign.Param;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  *@author jeff.liu
@@ -16,8 +15,9 @@ public class DemoController {
     @Autowired
     private DemoServiceImpl demoService;
 
-    @GetMapping("/rpc")
-    public String rpc(@RequestParam("value") String value) {
+    //@GetMapping("/rpc")
+    @RequestMapping(value = "/rpc" ,method = RequestMethod.GET)
+    public String rpc(/*@RequestParam*/@Param("value") String value) {
         return demoService.rpc(value);
     }
 }

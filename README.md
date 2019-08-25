@@ -89,17 +89,17 @@ public class SpringServiceAApplication {
 
 最大重试次数
 
-transaction.recover.maxRetryCount=15
+micro.tcc.transaction.recover.maxRetryCount=15
 
 重试间隔
 
-transaction.recover.recoverDuration=100
+micro.tcc.transaction.recover.recoverDuration=100
 
 重试时间=重试间隔*重试次数
 
 job cron表达式
 
-transaction.recover.cronExpression=0 */2 * * * ?
+micro.tcc.transaction.recover.cronExpression=0 */2 * * * ?
  
 ### 使用
 

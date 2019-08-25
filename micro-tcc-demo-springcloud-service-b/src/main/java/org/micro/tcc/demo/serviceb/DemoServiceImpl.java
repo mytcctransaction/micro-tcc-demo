@@ -54,8 +54,6 @@ public class DemoServiceImpl implements DemoService {
         log.info("**********saved b********");
         fixSizeCacheMap.add(TransactionManager.getInstance().getTransactionGlobalId(),demo.getId());
 
-        //if(1==1)
-        //throw new Exception("dff");
         //int a=1/0;
         return "success--b";
     }
