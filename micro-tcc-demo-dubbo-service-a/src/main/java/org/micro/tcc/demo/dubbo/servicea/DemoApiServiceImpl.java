@@ -63,10 +63,12 @@ public class DemoApiServiceImpl implements DemoApiService {
         demoMapper.save(demo);
         fixSizeCacheMap.add(TransactionManager.getInstance().getTransactionGlobalId(),demo.getId());
         if (Objects.nonNull(exFlag)) {
+            long b=System.currentTimeMillis();
+            log.error("execute time:{}",b-a);
             throw new IllegalStateException("by exFlag");
         }
         long b=System.currentTimeMillis();
-        log.error("execute:{}",b-a);
+        log.error("execute time:{}",b-a);
         return bResp + " > " + cResp + " > " + "success--a";
     }
 
