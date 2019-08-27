@@ -1,4 +1,4 @@
-# Distributed TCC Transaction Framework - micro-tcc (1.3.0.RELEASE)
+# Distributed TCC Transaction Framework - micro-tcc (1.3.5.RELEASE)
 
 [![Maven](https://img.shields.io/badge/endpoint.svg?url=https://github.com/mytcctransaction/micro-tcc)](https://github.com/mytcctransaction/micro-tcc)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://github.com/mytcctransaction/micro-tcc/master/LICENSE)
