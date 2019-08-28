@@ -9,6 +9,7 @@
 https://github.com/mytcctransaction/micro-tcc
 
 _Modules_
+
 1. micro-tcc-tc: *Distributed Transaction Client*
 2. micro-tcc-common: *Commons*   
 
@@ -25,9 +26,13 @@ _Modules_
 
 ## Summary
     micro-tcc 是基于Zookeeper（协调者）+Redis 分布式事务中间件，支持SpringCloud 、Dubbo、RestTemplate
+    
     micro-tcc 支持事务同步和异步调用方式，发生异常的事务会定时自动恢复，如果超过最大恢复次数，建议手动恢复
+    
     Zookeeper 作为分布式事务协调者，它负责协调各个子系统的事务状态和事务确认、提交、回滚
+    
     redis 作为事务日志的存储方式
+    
     代码完全开源，欢迎大家start！
     
 ## Start
