@@ -37,18 +37,16 @@
 ### 项目配置
 
 1，首先在pom 文件添加以下依赖包：
-
-、、、
-  <dependency>
   
+<dependency>
+
     <groupId>com.github.mytcctransaction</groupId>
-    
+
     <artifactId>micro-tcc-tc</artifactId>
     
     <version>1.3.5</version>
  
-  </dependency>
- 、、、
+</dependency>
 
 
 其次在各个项目的resources目录下，配置数据库连接，本项目采用mysql数据库
