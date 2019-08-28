@@ -14,12 +14,37 @@
     Zookeeper 作为分布式事务协调者，它负责协调各个子系统的事务状态和事务确认、提交、回滚
     redis 作为事务日志的存储方式
     代码完全开源，欢迎大家start！
+    
+    设计流程图：
+    
+     ![](https://github.com/mytcctransaction/micro-tcc-demo/blob/master/micro-tcc-demo-common/src/main/resources/img/tcc-flow.jpg)
+     
+     拦截器会拦截所有业务方法，把参与同一个事务的微服务加入事务组
+     
+     全局事务ID 基于UUID 生成，通过拦截器会在所有微服务中传播
+     
+     事务在Try 阶段没有发生异常，Zookeeper通知事务参与者执行Confirm 方法
+     
+     事务在Confirm 阶段没有异常，则这个事务结束
+     
+     事务在Confirm阶段发生异常，Zookeeper 通知事务参与者执行Rollback 方法
+     
+     事务Rollback 阶段发生异常，不做任何操作，防止进入死循环里，后续异常事务通过定时任务恢复
 
 ## Start
 
 ### 项目配置
 
-1，在各个项目的resources目录下，配置数据库连接，本项目采用mysql数据库
+1，首先在pom 文件添加以下依赖包：
+
+ <dependency>
+    <groupId>com.github.mytcctransaction</groupId>
+    <artifactId>micro-tcc-tc</artifactId>
+    <version>1.3.5</version>
+ </dependency>
+
+
+其次在各个项目的resources目录下，配置数据库连接，本项目采用mysql数据库
 
 spring.datasource.driver-class-name=com.mysql.jdbc.Driver
 
@@ -120,6 +145,16 @@ http://127.0.0.1:8881/micro_tcc?value=1&ex=1
 查看数据库，发现没有一条记录
 
 恭喜，测试成功！欢迎大家加群交流
+
+## 分布式事务最终一致性机制
+
+Micro-tcc 在执行Confirm、Rollback方法前都会预先在redis记录预存事务日志，并把事务进行序列化保存
+
+执行完 Confirm、Rollback方法成功后会执行在redis删除预存事务日志 ，不成功不会删除事务日志
+
+如果Confirm、Rollback方法发生异常，定时器会查找没有删除的事务日志，并反序列化事务对象，执行Confirm、Rollback方法进行恢复事务
+
+如果恢复超过一定次数（次数可配置），则建议人工手动恢复，中间件不会再执行恢复
 
 ## 性能测试
 
