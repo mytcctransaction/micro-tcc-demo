@@ -15,24 +15,25 @@
     redis 作为事务日志的存储方式
     代码完全开源，欢迎大家start！
     
-    设计流程图：
-    
-     ![](https://github.com/mytcctransaction/micro-tcc-demo/blob/master/micro-tcc-demo-common/src/main/resources/img/tcc-flow.jpg)
-     
-     拦截器会拦截所有业务方法，把参与同一个事务的微服务加入事务组
-     
-     全局事务ID 基于UUID 生成，通过拦截器会在所有微服务中传播
-     
-     事务在Try 阶段没有发生异常，Zookeeper通知事务参与者执行Confirm 方法
-     
-     事务在Confirm 阶段没有异常，则这个事务结束
-     
-     事务在Confirm阶段发生异常，Zookeeper 通知事务参与者执行Rollback 方法
-     
-     事务Rollback 阶段发生异常，不做任何操作，防止进入死循环里，后续异常事务通过定时任务恢复
-
 ## Start
+### 主要流程
 
+ 设计流程图：
+
+ ![](https://github.com/mytcctransaction/micro-tcc-demo/blob/master/micro-tcc-demo-common/src/main/resources/img/tcc-flow.jpg)
+ 
+ 拦截器会拦截所有业务方法，把参与同一个事务的微服务加入事务组
+ 
+ 全局事务ID 基于UUID 生成，通过拦截器会在所有微服务中传播
+ 
+ 事务在Try 阶段没有发生异常，Zookeeper通知事务参与者执行Confirm 方法
+ 
+ 事务在Confirm 阶段没有异常，则这个事务结束
+ 
+ 事务在Confirm阶段发生异常，Zookeeper 通知事务参与者执行Rollback 方法
+ 
+ 事务Rollback 阶段发生异常，不做任何操作，防止进入死循环里，后续异常事务通过定时任务恢复
+ 
 ### 项目配置
 
 1，首先在pom 文件添加以下依赖包：
