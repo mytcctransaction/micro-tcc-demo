@@ -3,11 +3,26 @@
 [![Maven](https://img.shields.io/badge/endpoint.svg?url=https://github.com/mytcctransaction/micro-tcc)](https://github.com/mytcctransaction/micro-tcc)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://github.com/mytcctransaction/micro-tcc/master/LICENSE)
 
-## Modules
+# Project
+**micro-tcc** 项目链接  （框架核心源码）
+
+https://github.com/mytcctransaction/micro-tcc
+
+_Modules_
+1. micro-tcc-tc: *Distributed Transaction Client*
+2. micro-tcc-common: *Commons*   
+
+**micro-tcc-demo** 项目链接  （框架使用例子）
+
+https://github.com/mytcctransaction/micro-tcc-demo
+
+_Modules_
+
 1. micro-tcc-demo-common: *Distributed Transaction demo common*
 2. micro-tcc-dubbo-*: *Dubbo demo*   
 3. micro-tcc-springcloud-*: *SpringCloud demo*   
 4. micro-tcc-ek:*Eureka Server*
+
 ## Summary
     micro-tcc 是基于Zookeeper（协调者）+Redis 分布式事务中间件，支持SpringCloud 、Dubbo、RestTemplate
     micro-tcc 支持事务同步和异步调用方式，发生异常的事务会定时自动恢复，如果超过最大恢复次数，建议手动恢复
