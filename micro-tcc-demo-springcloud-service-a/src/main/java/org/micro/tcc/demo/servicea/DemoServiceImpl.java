@@ -3,19 +3,17 @@ package org.micro.tcc.demo.servicea;
 ;
 import lombok.extern.slf4j.Slf4j;
 
+import org.micro.tcc.tc.annotation.TccTransaction;
 import org.micro.tcc.tc.component.TransactionManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
-import org.micro.tcc.common.annotation.TccTransaction;
-
 import org.micro.tcc.common.core.FixSizeCacheMap;
 import org.micro.tcc.demo.common.db.domain.Demo;
 import org.micro.tcc.demo.common.spring.ServiceBClient;
 import org.micro.tcc.demo.common.spring.ServiceCClient;
-
 import java.util.Date;
 import java.util.Objects;
 
@@ -35,7 +33,7 @@ public class DemoServiceImpl implements DemoService {
     private final ServiceCClient serviceCClient;
 
     //定长并定时清理缓存map
-    private FixSizeCacheMap fixSizeCacheMap=FixSizeCacheMap.get();
+    private volatile FixSizeCacheMap fixSizeCacheMap=FixSizeCacheMap.get();
 
     private final RestTemplate restTemplate;
     @Value("${spring.application.name}")
@@ -51,20 +49,11 @@ public class DemoServiceImpl implements DemoService {
 
     @Override
     @Transactional
-    @TccTransaction(confirmMethod = "confirmMethod",cancelMethod = "cancelMethod")
+    @TccTransaction(confirmMethod = "confirmMethod",cancelMethod = "cancelMethod",rollbackFor = Throwable.class)
     public String execute( String value, String exFlag) {
+        long start=System.currentTimeMillis();
         // step1
-        String bResp = serviceBClient.rpc(value);
-
-        //String bResp = restTemplate.getForObject("http://127.0.0.1:8882/rpc?value=" + value, String.class);
-
-        // step2.
-        String cResp = serviceCClient.rpc(value);
-        //String cResp = restTemplate.getForObject("http://127.0.0.1:8883/rpc?value=" + value, String.class);
-        //String cResp="test";
-        // step3.
         Demo demo = new Demo();
-
         demo.setContent(value);
         demo.setCreateTime(new Date());
         demo.setAppName(appName);
@@ -72,6 +61,16 @@ public class DemoServiceImpl implements DemoService {
         demoMapper.save(demo);
         fixSizeCacheMap.add(TransactionManager.getInstance().getTransactionGlobalId(),demo.getId());
 
+        // step2.
+        String bResp = serviceBClient.rpc(value);
+        //String bResp = restTemplate.getForObject("http://127.0.0.1:8882/rpc?value=" + value, String.class);
+
+        // step3.
+        String cResp = serviceCClient.rpc(value);
+        //String cResp = restTemplate.getForObject("http://127.0.0.1:8883/rpc?value=" + value, String.class);
+        //String cResp="cResp";
+        long end=System.currentTimeMillis();
+        log.error("execute time:{}",end-start);
         // 置异常标志，事务回滚
         if (Objects.nonNull(exFlag)) {
             throw new IllegalStateException("by exFlag");
@@ -81,6 +80,7 @@ public class DemoServiceImpl implements DemoService {
     }
     public void cancelMethod( String value, String exFlag){
         log.info("****cancelMethod:value:{},exFlag:{}",value,exFlag);
+
         Long id=(Long)fixSizeCacheMap.peek(TransactionManager.getInstance().getTransactionGlobalId());
         demoMapper.deleteByKId(id);
         fixSizeCacheMap.del(TransactionManager.getInstance().getTransactionGlobalId());
@@ -88,6 +88,7 @@ public class DemoServiceImpl implements DemoService {
     public void confirmMethod( String value, String exFlag){
         log.info("*****confirmMethod:value:{},exFlag:{}",value,exFlag);
         Long id=(Long)fixSizeCacheMap.peek(TransactionManager.getInstance().getTransactionGlobalId());
+        demoMapper.updateByKId(id);
         log.info("*****confirmMethod:id:{}",id);
 
     }

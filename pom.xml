@@ -25,7 +25,7 @@
 
         <module>micro-tcc-demo-springcloud-service-a</module>
         <module>micro-tcc-demo-springcloud-service-b</module>
-		<module>micro-tcc-demo-springcloud-service-b-b</module>
+		<module>micro-tcc-demo-springcloud-service-b2</module>
         <module>micro-tcc-demo-springcloud-service-c</module>
 
 

@@ -1,11 +1,10 @@
-package org.micro.tcc.demo.servicec;
+package org.micro.tcc.demo.serviceb;
 
 
 import org.micro.tcc.tc.annotation.EnableMicroTccTransaction;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
-import org.springframework.cloud.client.circuitbreaker.EnableCircuitBreaker;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.client.ClientHttpRequestInterceptor;
@@ -21,10 +20,11 @@ import java.util.Collections;
 @SpringBootApplication
 @EnableDiscoveryClient
 @EnableMicroTccTransaction
-public class SpringServiceCApplication {
+public class SpringServiceB2Application {
 
     public static void main(String[] args) {
-        SpringApplication.run(SpringServiceCApplication.class, args);
+        SpringApplication.run(SpringServiceB2Application.class, args);
+
     }
 
     @Bean

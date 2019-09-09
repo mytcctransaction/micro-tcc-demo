@@ -3,8 +3,9 @@ package org.micro.tcc.demo.dubbo.servicea;
 import com.alibaba.dubbo.config.annotation.Reference;
 
 import lombok.extern.slf4j.Slf4j;
-import org.micro.tcc.common.annotation.TccTransaction;
+
 import org.micro.tcc.common.core.FixSizeCacheMap;
+import org.micro.tcc.tc.annotation.TccTransaction;
 import org.micro.tcc.tc.component.TransactionManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -49,8 +50,8 @@ public class DemoApiServiceImpl implements DemoApiService {
     private String appName;
 
     @Override
-    @Transactional
-    @TccTransaction(confirmMethod = "confirmMethod",cancelMethod = "cancelMethod")
+    @Transactional(rollbackFor = Throwable.class)
+    @TccTransaction(confirmMethod = "confirmMethod",cancelMethod = "cancelMethod",rollbackFor = Throwable.class)
     public String execute(String name, String exFlag) {
         long a=System.currentTimeMillis();
         String bResp = demoServiceB.rpc(name);
@@ -81,7 +82,7 @@ public class DemoApiServiceImpl implements DemoApiService {
     public void confirmMethod( String value, String exFlag){
         log.info("*****confirmMethod:value:{},exFlag:{}",value,exFlag);
         Long id=(Long)fixSizeCacheMap.peek(TransactionManager.getInstance().getTransactionGlobalId());
-        //demoMapper.updateByKId(id);
+        demoMapper.updateByKId(id);
         log.info("*****confirmMethod:id:{}",id);
 
     }

@@ -19,9 +19,8 @@ public class DemoController {
     @Autowired
     private DemoService demoService;
 
-    //@GetMapping("/rpc")
-    @RequestMapping(value = "/rpc" ,method = RequestMethod.GET)
-    public String rpc(@Param("value") String value, HttpServletRequest servletRequest) throws Exception {
+    @GetMapping("/rpc")
+    public String rpc(@RequestParam("value") String value, HttpServletRequest servletRequest) throws Exception {
 
         return demoService.rpc(value);
     }

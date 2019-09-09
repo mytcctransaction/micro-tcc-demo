@@ -2,12 +2,12 @@ package org.micro.tcc.demo.serviceb;
 
 
 import lombok.extern.slf4j.Slf4j;
+import org.micro.tcc.tc.annotation.TccTransaction;
 import org.micro.tcc.tc.component.TransactionManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.micro.tcc.common.annotation.TccTransaction;
 import org.micro.tcc.common.core.FixSizeCacheMap;
 import org.micro.tcc.common.constant.Propagation;
 
@@ -40,10 +40,10 @@ public class DemoServiceImpl implements DemoService {
 
     @Override
     @Transactional
-    @TccTransaction(confirmMethod = "confirmMethod",cancelMethod = "cancelMethod",propagation = Propagation.SUPPORTS)
+    @TccTransaction(confirmMethod = "confirmMethod",cancelMethod = "cancelMethod",propagation = Propagation.SUPPORTS,rollbackFor = Throwable.class)
     public String rpc(String value) throws Exception {
 
-        //serviceCClient.rpc(value);
+        //String c=serviceCClient.rpc(value);
         Demo demo = new Demo();
 
         demo.setContent(value);
@@ -53,7 +53,6 @@ public class DemoServiceImpl implements DemoService {
         demoMapper.save(demo);
         log.info("**********saved b********");
         fixSizeCacheMap.add(TransactionManager.getInstance().getTransactionGlobalId(),demo.getId());
-
         //int a=1/0;
         return "success--b";
     }
@@ -68,6 +67,7 @@ public class DemoServiceImpl implements DemoService {
         log.info("*****confirmMethod:value:{},exFlag:{}",value);
         //int a=1/0;
         Long id=(Long)fixSizeCacheMap.peek(TransactionManager.getInstance().getTransactionGlobalId());
+        demoMapper.updateByKId(id);
         log.info("*****confirmMethod:id:{}",id);
     }
 }

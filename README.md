@@ -73,7 +73,7 @@ _Modules_
 
 spring.datasource.driver-class-name=com.mysql.jdbc.Driver
 
-spring.datasource.url=jdbc:mysql://127.0.0.1:3306/micro-tcc?characterEncoding=UTF-8&serverTimezone=UTC
+spring.datasource.url=jdbc:mysql://127.0.0.1:3306/micro-tcc?characterEncoding=UTF-8
 
 spring.datasource.username=abc1
 

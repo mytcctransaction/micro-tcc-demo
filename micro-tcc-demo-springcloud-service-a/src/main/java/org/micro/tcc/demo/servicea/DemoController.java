@@ -1,6 +1,8 @@
 package org.micro.tcc.demo.servicea;
 
+import feign.Param;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,7 +23,7 @@ public class DemoController {
     }
 
     @RequestMapping("/micro_tcc")
-    public String execute(@RequestParam("value") String value, @RequestParam(value = "ex", required = false) String exFlag) {
+    public String execute(@RequestParam("value") String value, @RequestParam(value = "ex" ,required = false) String exFlag) {
         return demoService.execute(value, exFlag);
     }
 

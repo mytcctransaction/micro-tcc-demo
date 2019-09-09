@@ -12,10 +12,10 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration
 @EnableFeignClients
-@ConditionalOnMissingBean(Contract.class)
+//@ConditionalOnMissingBean(Contract.class)
 public class FeignApiConfiguration {
-    @Bean
+   /* @Bean
     public Contract feignApiContract() {
        return new Contract.Default();
-    }
+    }*/
 }

@@ -10,9 +10,9 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>micro-tcc-demo-springcloud-service-b-b</artifactId>
+    <artifactId>micro-tcc-demo-springcloud-service-b2</artifactId>
 
-    <name>micro-tcc-demo-springcloud-service-b-b</name>
+    <name>micro-tcc-demo-springcloud-service-b2</name>
 
     <dependencies>
 

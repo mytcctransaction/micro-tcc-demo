@@ -15,9 +15,9 @@ public class DemoController {
     @Autowired
     private DemoServiceImpl demoService;
 
-    //@GetMapping("/rpc")
-    @RequestMapping(value = "/rpc" ,method = RequestMethod.GET)
-    public String rpc(/*@RequestParam*/@Param("value") String value) {
+    @GetMapping("/rpc")
+//    @RequestMapping(value = "/rpc" ,method = RequestMethod.GET)
+    public String rpc(@RequestParam("value") String value) {
         return demoService.rpc(value);
     }
 }
