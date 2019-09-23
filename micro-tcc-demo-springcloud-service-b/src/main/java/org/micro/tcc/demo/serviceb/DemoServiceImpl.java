@@ -2,19 +2,22 @@ package org.micro.tcc.demo.serviceb;
 
 
 import lombok.extern.slf4j.Slf4j;
+import org.micro.tcc.demo.common.util.FixSizeCacheMap;
 import org.micro.tcc.tc.annotation.TccTransaction;
 import org.micro.tcc.tc.component.TransactionManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.micro.tcc.common.core.FixSizeCacheMap;
+
 import org.micro.tcc.common.constant.Propagation;
 
 import org.micro.tcc.demo.common.db.domain.Demo;
 import org.micro.tcc.demo.common.spring.ServiceCClient;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  *@author jeff.liu
@@ -33,8 +36,8 @@ public class DemoServiceImpl implements DemoService {
         this.demoMapper = demoMapper;
     }
     //定长并定时清理缓存map
-    private FixSizeCacheMap fixSizeCacheMap=FixSizeCacheMap.get();
-
+    private volatile FixSizeCacheMap fixSizeCacheMap= FixSizeCacheMap.get();
+    private volatile Map<String,Long> myMap=new HashMap<String, Long>();
     @Value("${spring.application.name}")
     private String appName;
 
@@ -51,23 +54,23 @@ public class DemoServiceImpl implements DemoService {
         demo.setGroupId(TransactionManager.getInstance().getTransactionGlobalId());
         demo.setCreateTime(new Date());
         demoMapper.save(demo);
-        log.info("**********saved b********");
+        log.debug("**********saved b********");
         fixSizeCacheMap.add(TransactionManager.getInstance().getTransactionGlobalId(),demo.getId());
         //int a=1/0;
         return "success--b";
     }
 
     public void cancelMethod( String value){
-        log.info("****cancelMethod:value:{},exFlag:{}",value);
+        log.debug("****cancelMethod:value:{},exFlag:{}",value);
         Long id=(Long)fixSizeCacheMap.peek(TransactionManager.getInstance().getTransactionGlobalId());
         demoMapper.deleteByKId(id);
         fixSizeCacheMap.del(TransactionManager.getInstance().getTransactionGlobalId());
     }
     public void confirmMethod( String value){
-        log.info("*****confirmMethod:value:{},exFlag:{}",value);
-        //int a=1/0;
+        log.debug("*****confirmMethod:value:{},exFlag:{}",value);
+        int a=1/0;
         Long id=(Long)fixSizeCacheMap.peek(TransactionManager.getInstance().getTransactionGlobalId());
         demoMapper.updateByKId(id);
-        log.info("*****confirmMethod:id:{}",id);
+        log.debug("*****confirmMethod:id:{}",id);
     }
 }

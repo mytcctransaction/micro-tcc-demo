@@ -26,7 +26,7 @@ public class ServiceBFallback implements ServiceBClient {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        log.error("*******ServiceBFallback method called*******");
+        log.error("*******ServiceBFallback method called*******,{}",TransactionManager.getInstance().getTransactionGlobalId());
         return "fallback";
     }
 }

@@ -53,9 +53,9 @@ public class MavenWrapperDownloader {
     private static final String PROPERTY_NAME_WRAPPER_URL = "wrapperUrl";
 
     public static void main(String args[]) {
-        log.info("- Downloader started");
+        log.debug("- Downloader started");
         File baseDirectory = new File(args[0]);
-        log.info("- Using base directory: " + baseDirectory.getAbsolutePath());
+        log.debug("- Using base directory: " + baseDirectory.getAbsolutePath());
 
         // If the maven-wrapper.properties exists, read it and check if it contains a custom
         // wrapperUrl parameter.
@@ -69,7 +69,7 @@ public class MavenWrapperDownloader {
                 mavenWrapperProperties.load(mavenWrapperPropertyFileInputStream);
                 url = mavenWrapperProperties.getProperty(PROPERTY_NAME_WRAPPER_URL, url);
             } catch (IOException e) {
-                log.info("- ERROR loading '" + MAVEN_WRAPPER_PROPERTIES_PATH + "'");
+                log.debug("- ERROR loading '" + MAVEN_WRAPPER_PROPERTIES_PATH + "'");
             } finally {
                 try {
                     if (mavenWrapperPropertyFileInputStream != null) {
@@ -80,22 +80,22 @@ public class MavenWrapperDownloader {
                 }
             }
         }
-        log.info("- Downloading from: : " + url);
+        log.debug("- Downloading from: : " + url);
 
         File outputFile = new File(baseDirectory.getAbsolutePath(), MAVEN_WRAPPER_JAR_PATH);
         if (!outputFile.getParentFile().exists()) {
             if (!outputFile.getParentFile().mkdirs()) {
-                log.info(
+                log.debug(
                         "- ERROR creating output direcrory '" + outputFile.getParentFile().getAbsolutePath() + "'");
             }
         }
-        log.info("- Downloading to: " + outputFile.getAbsolutePath());
+        log.debug("- Downloading to: " + outputFile.getAbsolutePath());
         try {
             downloadFileFromURL(url, outputFile);
-            log.info("Done");
+            log.debug("Done");
             System.exit(0);
         } catch (Throwable e) {
-            log.info("- Error downloading");
+            log.debug("- Error downloading");
             e.printStackTrace();
             System.exit(1);
         }

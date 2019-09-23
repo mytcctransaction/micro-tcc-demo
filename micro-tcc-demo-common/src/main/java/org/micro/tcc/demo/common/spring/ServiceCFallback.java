@@ -25,7 +25,7 @@ public class ServiceCFallback implements ServiceCClient {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        log.error("*******ServiceCFallback method called*******");
+        log.error("*******ServiceCFallback method called*******{}",TransactionManager.getInstance().getTransactionGlobalId());
         return "fallback";
     }
 }
